@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <time.h>
+#include <fstream>
 
 using namespace std;
 
@@ -106,27 +107,33 @@ int binarySearch (int w[], int a[], int b[], int left, int right, int c[], int N
         return binarySearch(w, a, b, mid+1, right, c, N, M);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
         int N,M;
-        cin >> N >> M;
-        int c[N+1], a[M], b[M];
-        int w[M];
+        ifstream myfile (argv[1]);
+        if(myfile.is_open()){
+                myfile >> N >> M;
+                int c[N+1], a[M], b[M];
+                int w[M];
 
-        srand(time(NULL));
+                srand(time(NULL));
 
-        c[0] = 0;
-        for (int i=1; i<N+1; ++i){
-                cin >> c[i];
+                c[0] = 0;
+                for (int i=1; i<N+1; ++i){
+                        myfile >> c[i];
+                }
+                for (int j=0; j<M; ++j){
+                        myfile >> a[j] >> b[j] >> w[j];
+                }
+
+                quickSort(w, a, b, 0, M-1);
+                int pos = binarySearch(w, a, b, 0, M-1, c, N, M);
+
+                if (!Mortys_rescue(w, a, b, pos, c, N, M)) cout << w[pos-1] << endl;
+                else cout << w[pos] << endl;
+                myfile.close();
         }
-        for (int j=0; j<M; ++j){
-                cin >> a[j] >> b[j] >> w[j];
-        }
+        else cout << "Unable to open file" << endl;
 
-        quickSort(w, a, b, 0, M-1);
-        int pos = binarySearch(w, a, b, 0, M-1, c, N, M);
-
-        if (!Mortys_rescue(w, a, b, pos, c, N, M)) cout << w[pos-1] << endl;
-        else cout << w[pos] << endl;
 	
 
         return 0;
