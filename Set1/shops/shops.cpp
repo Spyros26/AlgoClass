@@ -7,31 +7,30 @@ using namespace std;
 
 
 
-int main(int argc, char *argv[]) {
+int main() {
         int N,K;
-        ifstream myfile (argv[1]);
-        if(myfile.is_open()){
-            myfile >> N >> K;
+
+            cin >> N >> K;
             int p[N];
             int a[K+1];
 
             for (int i=0; i<N; ++i){
-                    myfile >> p[i];
+                    cin >> p[i];
             }
             for (int i=0; i<=K; ++i){
                     a[i] = (int)1e7;
             }
 
-            int cnt, sum, limit;
+            int cnt, sum, sum1, cnt1;
             vector<int> sums[N+1];
 	        vector<int> cnts[N+1];
 
             for (int i=0; i<N; i++) {
             	for(int l=0; l<sums[i-1].size(); l++) {
-                    int sum = sums[i-1].at(l);
-                    int cnt = cnts[i-1].at(l);
-                    if(a[sum] > cnt) {
-                        a[sum] = cnt;
+                    sum1 = sums[i-1].at(l);
+                    cnt1 = cnts[i-1].at(l);
+                    if(a[sum1] > cnt1) {
+                        a[sum1] = cnt1;
                     }
 	            }
                 sum = 0;
@@ -50,10 +49,7 @@ int main(int argc, char *argv[]) {
 
             if (a[K] == (int)1e7) a[K] = -1;
 
-            cout << a[K]<< endl;
-            myfile.close();
-        }
-        else cout << "Unable to open file" << endl;
+            cout << a[K] << endl;
 	
 
         return 0;
